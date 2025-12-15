@@ -1,7 +1,8 @@
 import logfire
-from fastapi import APIRouter, HTTPException, Query, Request
+from fastapi import APIRouter, BackgroundTasks, HTTPException, Query, Request
 
 from src.config import settings
+from src.services.handler import handle_incoming_message
 from src.whatsapp.models import ParsedMessage, WhatsAppWebhookPayload
 
 router = APIRouter(prefix="/webhook", tags=["webhook"])
@@ -21,7 +22,7 @@ async def verify_webhook(
 
 
 @router.post("")
-async def receive_webhook(request: Request) -> dict:
+async def receive_webhook(request: Request, background_tasks: BackgroundTasks) -> dict:
     body = await request.json()
     logfire.info("Webhook received", payload=body)
 
@@ -43,6 +44,7 @@ async def receive_webhook(request: Request) -> dict:
                 continue
 
             contacts_map = {c.wa_id: c.profile.name for c in value.contacts}
+            group_id = value.metadata.phone_number_id
 
             for msg in value.messages:
                 if msg.type != "text" or not msg.text:
@@ -56,11 +58,17 @@ async def receive_webhook(request: Request) -> dict:
                     timestamp=msg.timestamp,
                 )
                 messages.append(parsed)
+
+                background_tasks.add_task(
+                    handle_incoming_message,
+                    parsed=parsed,
+                    group_id=group_id,
+                )
+
                 logfire.info(
-                    "Message parsed",
+                    "Message queued for processing",
                     message_id=parsed.message_id,
                     from_phone=parsed.from_phone,
-                    sender_name=parsed.sender_name,
                 )
 
     return {"status": "ok", "messages_received": len(messages)}
