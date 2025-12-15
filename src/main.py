@@ -6,7 +6,10 @@ from fastapi import FastAPI
 from src.api.webhooks import router as webhook_router
 from src.config import settings
 
-logfire.configure(token=settings.logfire_token if settings.logfire_token else None)
+if settings.logfire_token:
+    logfire.configure(token=settings.logfire_token)
+else:
+    logfire.configure(send_to_logfire=False)
 
 
 @asynccontextmanager
