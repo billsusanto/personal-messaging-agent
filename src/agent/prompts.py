@@ -12,9 +12,10 @@ express empathy. For technical errors, gather relevant details before escalating
 You have access to tools to draft replies, escalate to developers, or forward messages. Use them \
 appropriately based on the message content and context."""
 
-CLASSIFICATION_PROMPT = """Analyze the following message and classify it into one of these categories:
+CLASSIFICATION_PROMPT = """Analyze the following message and classify it into one of these \
+categories:
 
-- COMPLAINT: Customer expressing dissatisfaction, frustration, or reporting a problem with service/product
+- COMPLAINT: Customer expressing dissatisfaction, frustration, or reporting a service problem
 - ERROR: Technical error report, bug report, system malfunction, or application issue
 - CASUAL: General conversation, greetings, thank you messages, or non-urgent inquiries
 - UNKNOWN: Message that doesn't clearly fit into the above categories
