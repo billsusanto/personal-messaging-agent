@@ -36,7 +36,8 @@ class WhatsAppClient:
             response = await client.post(url, json=payload, headers=self._get_headers())
             response.raise_for_status()
             result = response.json()
-            logfire.info("WhatsApp message sent", to=to, message_id=result.get("messages", [{}])[0].get("id"))
+            msg_id = result.get("messages", [{}])[0].get("id")
+            logfire.info("WhatsApp message sent", to=to, message_id=msg_id)
             return result
 
     async def send_template(self, to: str, template_name: str, params: list[str]) -> dict:
