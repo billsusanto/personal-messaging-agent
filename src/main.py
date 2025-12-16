@@ -5,6 +5,8 @@ from fastapi import FastAPI
 
 from src.api.webhooks import router as webhook_router
 from src.config import settings
+from src.db.database import create_db_tables
+from src.db.models import AgentAction, ApprovalQueue, Message  # noqa: F401
 
 if settings.logfire_token:
     logfire.configure(token=settings.logfire_token)
@@ -15,6 +17,8 @@ else:
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logfire.info("Starting PRB WA Agent")
+    create_db_tables()
+    logfire.info("Database tables ready")
     yield
     logfire.info("Shutting down PRB WA Agent")
 
