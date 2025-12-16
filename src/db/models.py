@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 from enum import Enum
-from typing import Any
+from typing import TYPE_CHECKING, Any, Optional
 
 from sqlmodel import JSON, Column, Field, Relationship, SQLModel
 
@@ -55,7 +55,7 @@ class AgentAction(SQLModel, table=True):
     approved_at: datetime | None = None
 
     message: Message = Relationship(back_populates="actions")
-    approval: "ApprovalQueue | None" = Relationship(back_populates="action")
+    approval: Optional["ApprovalQueue"] = Relationship(back_populates="action")
 
 
 class ApprovalQueue(SQLModel, table=True):
