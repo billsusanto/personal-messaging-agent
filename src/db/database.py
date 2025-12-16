@@ -2,7 +2,16 @@ from sqlmodel import SQLModel, create_engine
 
 from src.config import settings
 
-engine = create_engine(settings.database_url, echo=settings.debug) if settings.database_url else None
+
+def get_engine():
+    if not settings.database_url:
+        return None
+    # Use psycopg3 driver
+    url = settings.database_url.replace("postgresql://", "postgresql+psycopg://")
+    return create_engine(url, echo=settings.debug)
+
+
+engine = get_engine()
 
 
 def create_db_tables():
