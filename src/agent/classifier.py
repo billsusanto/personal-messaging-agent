@@ -30,7 +30,7 @@ async def classify_message(content: str) -> MessageType:
 
         result = await agent.run(prompt)
 
-        classification = result.data.strip().upper()
+        classification = result.output.strip().upper()
 
         if classification == "COMPLAINT":
             return MessageType.COMPLAINT

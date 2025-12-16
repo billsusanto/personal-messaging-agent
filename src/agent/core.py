@@ -55,6 +55,6 @@ async def process_message(message: str, context: str | None = None) -> AgentResp
                         actions.append(part.content)
 
         return AgentResponse(
-            message=result.data,
+            message=result.output,
             actions=actions,
         )
