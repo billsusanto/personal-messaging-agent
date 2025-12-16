@@ -1,14 +1,16 @@
+import os
 from dataclasses import dataclass
 from typing import Any
 
 import logfire
 from pydantic_ai import Agent
-from pydantic_ai.models.anthropic import AnthropicModel
 
 from src.config import settings
 
 from .prompts import SYSTEM_PROMPT
 from .tools import AgentContext, draft_reply, escalate_to_dev, forward_to_personal
+
+os.environ.setdefault("ANTHROPIC_API_KEY", settings.anthropic_api_key)
 
 
 @dataclass
@@ -23,9 +25,8 @@ _prb_agent: Agent[AgentContext, str] | None = None
 def get_prb_agent() -> Agent[AgentContext, str]:
     global _prb_agent
     if _prb_agent is None:
-        model = AnthropicModel("claude-sonnet-4-20250514", api_key=settings.anthropic_api_key)
         _prb_agent = Agent(
-            model,
+            "anthropic:claude-sonnet-4-20250514",
             system_prompt=SYSTEM_PROMPT,
             deps_type=AgentContext,
         )
