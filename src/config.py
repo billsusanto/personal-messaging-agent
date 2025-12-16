@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     wa_phone_number_id: str = ""
     wa_business_account_id: str = ""
     wa_access_token: str = ""
-    wa_verify_token: str = "prb-wa-agent-verify"
+    wa_verify_token: str = "personal-messaging-agent-verify"
 
     # Phone Numbers
     work_phone: str = ""

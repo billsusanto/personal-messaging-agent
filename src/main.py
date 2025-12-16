@@ -16,16 +16,16 @@ else:
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logfire.info("Starting PRB WA Agent")
+    logfire.info("Starting Personal Messaging Agent")
     create_db_tables()
     logfire.info("Database tables ready")
     yield
-    logfire.info("Shutting down PRB WA Agent")
+    logfire.info("Shutting down Personal Messaging Agent")
 
 
 app = FastAPI(
-    title="PRB WA Agent",
-    description="WhatsApp AI agent for PRB team operations",
+    title="Personal Messaging Agent",
+    description="WhatsApp AI agent for personal messaging operations",
     version="0.1.0",
     lifespan=lifespan,
 )

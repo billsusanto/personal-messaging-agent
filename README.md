@@ -1,6 +1,6 @@
-# PRB WA Agent
+# Personal Messaging Agent
 
-WhatsApp AI agent for PRB team operations. Handles complaints/errors, forwards issues to developers, and routes casual messages.
+WhatsApp AI agent for personal messaging operations. Handles complaints/errors, forwards issues to developers, and routes casual messages.
 
 ## Setup
 
